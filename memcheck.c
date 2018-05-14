@@ -30,7 +30,6 @@ void print_list(LinkedList *list) {
 }
 
 void memcheck_free(void *ptr, char *file, int line) {
-    /*printf("REMOVE THIS PRINT :: In memcheck_free file=\"%s\" line=\"%d\" \n", file, line);*/
 
     LinkedList **search;
     LinkedList *temp = head;
@@ -43,22 +42,13 @@ void memcheck_free(void *ptr, char *file, int line) {
 
     if(temp->allocatedPointer == ptr) {
 
-        /*if(temp == NULL) printf("null temp\n");
-        if(temp->next == NULL) printf("null temp->next\n");
-        if(previous == NULL) printf("null previous\n");*/
-        /*printf("memcheck error: attempting to free memory address %p in file \"%s\", line %d.\n", (void *) temp->allocatedPointer, file, line);*/
-
         if(previous!= NULL && temp != NULL && temp->next != NULL) {
-            /*printf("normal remove\n");*/
             previous->next = temp->next;
         } else if(previous == NULL && temp != NULL && temp->next != NULL) {
-            /*printf("hererhehre\n");*/
             head = temp->next;
         } else if(previous !=NULL && temp != NULL && temp->next ==NULL) {
-            /*printf("omg\n");*/
             previous->next = NULL;
         }
-        /*printf("removing temp %p\n", temp->allocatedPointer);*/
 
         free(temp->file);
         free(temp->allocatedPointer);
@@ -102,7 +92,6 @@ void *memcheck_realloc(void *ptr, size_t size, char *file, int line) {
 
 void *memcheck_malloc(size_t size, char *file, int line) {
     LinkedList *new = malloc(sizeof(LinkedList));
-    /*printf("In memcheck_malloc file=\"%s\" line=\"%d\" \n", file, line);*/
     new->file = strdup2(file);
     new->line = line;
     new->next = head;
